@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:find_jobs/features/jobs/data/models/jobs_model.dart';
 import 'package:find_jobs/features/jobs/data/repositories/job_repo.dart';
+import 'package:html/parser.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class JobRepository extends JobRepo {
   Dio dio = Dio();
@@ -12,11 +15,9 @@ class JobRepository extends JobRepo {
     try {
       final response = await dio.get('https://remotive.com/api/remote-jobs');
       log(response.statusCode.toString());
-
       if (response.statusCode == 200) {
         log('successfully fetched all jobs');
-        // log(response.data);
-        // log('parsed ${JobsModel.fromJson(response.data)}');
+
         return JobsModel.fromJson(response.data);
       } else if (response.statusCode == 400) {
         log('Failed to fetch jobs');
@@ -26,5 +27,53 @@ class JobRepository extends JobRepo {
       rethrow;
     }
     return null;
+  }
+
+  @override
+  String stripHtmlTags(String htmlString) {
+    final document = parse(htmlString);
+    return document.body?.text ?? '';
+  }
+
+  static const _favoritesKey = 'favorite_jobs';
+
+  @override
+  Future<void> saveJob(Job job) async {
+    final prefs = await SharedPreferences.getInstance();
+    final favorites = await getSavedJobs();
+
+    if (!favorites.any((j) => j.id == job.id)) {
+      favorites.add(job);
+      await prefs.setString(_favoritesKey, json.encode(favorites));
+    }
+  }
+
+  @override
+  Future<void> removeSavedJob(int jobId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final favorites = await getSavedJobs();
+    favorites.removeWhere((job) => job.id == jobId);
+    await prefs.setString(_favoritesKey, json.encode(favorites));
+  }
+
+  @override
+  Future<List<Job>> getSavedJobs() async {
+    final prefs = await SharedPreferences.getInstance();
+    final List<Job> savedJobs = [];
+    final jsonString = prefs.getString(_favoritesKey);
+    if (jsonString != null) {
+      // final List<dynamic> jsonList = json.decode(jsonString);
+      // jsonList.cast<Map<String, dynamic>>();
+      // Job.fromJson(jsonData);
+      savedJobs.add(json.decode(jsonString));
+      return savedJobs;
+    }
+    return [];
+  }
+
+  @override
+  Future<bool> isSaved(int jobId) async {
+    final favorites = await getSavedJobs();
+    return favorites.any((job) => job.id == jobId);
   }
 }

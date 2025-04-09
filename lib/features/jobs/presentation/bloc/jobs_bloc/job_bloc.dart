@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -20,8 +19,7 @@ class JobBloc extends Bloc<JobEvent, JobState> {
       try {
         final jobs = await _jobRepo.getJobs();
         log('fetched jobs');
-        log('Feteched jobs ${jobs!.jobs}');
-        emit(JobLoaded(jobs: jobs.jobs));
+        emit(JobLoaded(jobs: jobs!.jobs));
       } catch (e) {
         log('error is ${e.toString()}');
         emit(JobError(message: e.toString()));

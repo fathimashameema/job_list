@@ -9,8 +9,9 @@ class JTextTheme {
       color: Colors.white,
     ),
     headlineMedium: const TextStyle().copyWith(
-      fontSize: 28,
+      fontSize: 23,
       fontWeight: FontWeight.w600,
+      color: const Color.fromARGB(255, 206, 205, 205),
     ),
     headlineSmall: const TextStyle().copyWith(
       fontSize: 25,
@@ -23,12 +24,12 @@ class JTextTheme {
       color: Colors.white,
     ),
     titleMedium: const TextStyle().copyWith(
-      fontSize: 15,
-      fontWeight: FontWeight.w400,
-      color: Colors.grey,
+      fontSize: 18,
+      fontWeight: FontWeight.w500,
+      color: Colors.white,
     ),
     titleSmall: const TextStyle().copyWith(
-      fontSize: 20,
+      fontSize: 16,
       fontWeight: FontWeight.w400,
       color: Colors.white,
     ),
@@ -70,8 +71,9 @@ class JTextTheme {
       color: Colors.black,
     ),
     headlineMedium: const TextStyle().copyWith(
-      fontSize: 28,
+      fontSize: 23,
       fontWeight: FontWeight.w600,
+      color: const Color.fromARGB(255, 206, 205, 205),
     ),
     headlineSmall: const TextStyle().copyWith(
       fontSize: 25,
@@ -84,12 +86,12 @@ class JTextTheme {
       color: Colors.black,
     ),
     titleMedium: const TextStyle().copyWith(
-      fontSize: 15,
-      fontWeight: FontWeight.w400,
-      color: Colors.grey,
+      fontSize: 18,
+      fontWeight: FontWeight.w500,
+      color: Colors.black,
     ),
     titleSmall: const TextStyle().copyWith(
-      fontSize: 20,
+      fontSize: 16,
       fontWeight: FontWeight.w400,
       color: Colors.black,
     ),
