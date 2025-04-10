@@ -56,17 +56,23 @@ class JobRepository extends JobRepo {
     await prefs.setString(_favoritesKey, json.encode(favorites));
   }
 
+  
   @override
   Future<List<Job>> getSavedJobs() async {
     final prefs = await SharedPreferences.getInstance();
-    final List<Job> savedJobs = [];
     final jsonString = prefs.getString(_favoritesKey);
+
     if (jsonString != null) {
-      // final List<dynamic> jsonList = json.decode(jsonString);
-      // jsonList.cast<Map<String, dynamic>>();
-      // Job.fromJson(jsonData);
-      savedJobs.add(json.decode(jsonString));
-      return savedJobs;
+      try {
+        // Decode the JSON string to a List<dynamic>
+        final List<dynamic> jsonList = json.decode(jsonString);
+
+        // Convert each item in the list to a Job object
+        return jsonList.map((jobJson) => Job.fromJson(jobJson)).toList();
+      } catch (e) {
+        log('Error parsing saved jobs: $e');
+        return [];
+      }
     }
     return [];
   }

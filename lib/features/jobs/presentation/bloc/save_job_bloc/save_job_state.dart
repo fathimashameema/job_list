@@ -26,6 +26,7 @@ class ErrorSavingJob extends SaveJobState {}
 
 class ErrorRemovingJob extends SaveJobState {}
 
-class Saved extends SaveJobState {}
-
-class NotSaved extends SaveJobState {}
+class SavedStatusChecked extends SaveJobState {
+  final Map<int, bool> statusMap;
+  SavedStatusChecked({required this.statusMap});
+}

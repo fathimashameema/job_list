@@ -15,7 +15,7 @@ class RemoveSaved extends SaveJobEvent {
 
 class FetchSaved extends SaveJobEvent {}
 
-class IsSaved extends SaveJobEvent {
-  final int jobId;
-  IsSaved({required this.jobId});
+class CheckSavedStatus extends SaveJobEvent {
+  final List<Job> jobs;
+  CheckSavedStatus({required this.jobs});
 }

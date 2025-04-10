@@ -167,8 +167,7 @@ as List<Job>,
 /// @nodoc
 mixin _$Job {
 
- int get id; String get url; String get title;@JsonKey(name: 'company_name') String get companyName;@JsonKey(name: 'company_logo') String get companyLogo; String get category; List<String> get tags;@JsonKey(name: 'job_type') String get jobType;@JsonKey(name: 'publication_date') DateTime get publicationDate;@JsonKey(name: 'candidate_required_location') String get candidateRequiredLocation; String get salary; String get description;// Optional fields that might be in the response
- String? get applyUrl; String? get remote;
+ int get id; String get url; String get title;@JsonKey(name: 'company_name') String get companyName;@JsonKey(name: 'company_logo') String get companyLogo; String get category; List<String> get tags;@JsonKey(name: 'job_type') String get jobType;@JsonKey(name: 'publication_date') DateTime get publicationDate;@JsonKey(name: 'candidate_required_location') String get candidateRequiredLocation; String get salary; String get description; String? get applyUrl; String? get remote;
 /// Create a copy of Job
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -266,7 +265,6 @@ class _Job implements Job {
 @override@JsonKey(name: 'candidate_required_location') final  String candidateRequiredLocation;
 @override final  String salary;
 @override final  String description;
-// Optional fields that might be in the response
 @override final  String? applyUrl;
 @override final  String? remote;
 

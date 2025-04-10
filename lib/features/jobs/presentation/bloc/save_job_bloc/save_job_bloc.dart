@@ -37,6 +37,7 @@ class SaveJobBloc extends Bloc<SaveJobEvent, SaveJobState> {
     });
 
     on<FetchSaved>((event, emit) async {
+      emit(SavedJobsLoading());
       try {
         final savedJobs = await _jobRepo.getSavedJobs();
         log('fetched saved jobs');
@@ -47,15 +48,19 @@ class SaveJobBloc extends Bloc<SaveJobEvent, SaveJobState> {
       }
     });
 
-    on<IsSaved>((event, emit) async {
+    on<CheckSavedStatus>((event, emit) async {
       try {
-        if (await _jobRepo.isSaved(event.jobId)) {
-          emit(Saved());
-        } else {
-          emit(NotSaved());
-        }
+        final savedJobs = await _jobRepo.getSavedJobs();
+        final savedJobIds = savedJobs.map((j) => j.id).toSet();
+
+        // Create a map of jobId -> isSaved
+        final statusMap = {
+          for (var job in event.jobs) job.id: savedJobIds.contains(job.id),
+        };
+
+        emit(SavedStatusChecked(statusMap: statusMap));
       } catch (e) {
-        log('error is ${e.toString()}');
+        log('Error checking saved status: ${e.toString()}');
       }
     });
   }
